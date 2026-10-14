@@ -1,0 +1,212 @@
+/* Первый экран «сцена» (референс: Agent OS): по центру крупный заголовок с курсивным словом,
+   под ним широкий скруглённый кадр с тёмной полупрозрачной панелью поверх фото.
+   Только для index-sage.html, подключается последним. */
+
+/* ---------- шапка: пилюли и логотип по центру ---------- */
+
+.sage .logo {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 1.5rem;
+}
+
+.sage .nav a {
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(244, 236, 223, .12);
+  font-family: var(--sans);
+  font-size: .9rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.sage .nav a:hover { background: rgba(244, 236, 223, .24); color: var(--paper); }
+.sage .site-header .btn { border-radius: 999px; }
+
+/* ---------- сцена ---------- */
+
+.stage { padding: 20px var(--gutter) 8px; }
+
+.stage__head { text-align: center; }
+.stage__head .label { display: block; }
+.stage__head h1 {
+  margin: 14px auto 0;
+  max-width: 15em;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(1.7rem, 7.2vw, 4.6rem);
+  line-height: 1.12;
+}
+.stage__head h1 em { font-style: italic; }
+.stage__sub {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 28rem;
+  margin: 12px auto 0;
+  color: var(--peach);
+  font-size: .98rem;
+  line-height: 1.5;
+  text-align: left;
+}
+.stage__sub .heart { margin-top: .35em; }
+
+.stage__body { margin-top: 18px; }
+
+.stage__main {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--sage-deep);
+}
+.stage__main > img { width: 100%; height: 100%; object-fit: cover; }
+
+.stage__panel {
+  position: absolute;
+  left: 12px; right: 12px; bottom: 12px;
+  padding: 16px 16px 14px;
+  border: 1px solid rgba(244, 236, 223, .28);
+  border-radius: 16px;
+  background: rgba(36, 40, 31, .62);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  text-align: center;
+}
+.stage__panel .btn { width: 100%; }
+.stage__panel .link { display: none; margin-top: 12px; color: var(--paper); }
+
+.stage__strip {
+  display: flex;
+  gap: 8px;
+  margin: 8px calc(var(--gutter) * -1) 0;
+  padding: 0 var(--gutter) 4px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+}
+.stage__strip li {
+  flex: 0 0 46%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  scroll-snap-align: start;
+  border-radius: 14px;
+  background: var(--sage-deep);
+}
+.stage__strip img { width: 100%; height: 100%; object-fit: cover; }
+.stage__strip img.kiss { object-position: 50% 58%; }
+
+/* ---------- десктоп ---------- */
+
+@media (min-width: 960px) {
+  .sage .site-header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+  }
+  .sage .site-header .logo { order: 2; font-size: 1.9rem; }
+  .sage .site-header .nav { order: 1; justify-self: start; gap: 8px; flex-wrap: wrap; }
+  .sage .site-header .btn { order: 3; justify-self: end; }
+
+  .stage { padding: 64px var(--gutter) 32px; }
+  .stage__head h1 { margin-top: 18px; }
+  .stage__sub { margin-top: 22px; font-size: 1.15rem; }
+
+  .stage__body {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 8px;
+    height: clamp(440px, 58vh, 620px);
+    margin-top: 44px;
+  }
+  .stage__main { aspect-ratio: auto; border-radius: 24px; }
+  .stage__panel .link { display: inline-block; }
+  .stage__panel {
+    left: 24px; right: auto; bottom: 24px;
+    width: 340px;
+    padding: 20px;
+  }
+  .stage__strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+  .stage__strip li { aspect-ratio: auto; flex: none; border-radius: 18px; }
+}
+
+@media (min-width: 960px) and (max-width: 1199px) {
+  .sage .site-header .nav { gap: 6px; flex-wrap: nowrap; }
+  .sage .nav a { padding: 6px 11px; font-size: .82rem; white-space: nowrap; }
+}
+
+/* заголовок и подзаголовок в одну строку на десктопе */
+@media (min-width: 960px) {
+  .stage__head h1 {
+    max-width: none;
+    font-size: clamp(2.4rem, 4.2vw, 3.6rem);
+    white-space: nowrap;
+  }
+  .stage__head h1 br { display: none; }
+  .stage__sub {
+    max-width: none;
+    white-space: nowrap;
+  }
+}
+
+/* фикс: на широком экране картинки раздували сцену и заходили под «Про мене» */
+@media (min-width: 960px) {
+  .stage { padding-bottom: 64px; }
+  .stage__body { grid-template-rows: minmax(0, 1fr); }
+  .stage__main { min-height: 0; }
+  .stage__main > img { position: absolute; inset: 0; }
+  .stage__strip { grid-template-rows: repeat(2, minmax(0, 1fr)); min-height: 0; }
+  .stage__strip li { min-height: 0; }
+}
+
+/* ---------- версия без сетки 2×2: широкий кадр по центру + мини-сетка из трёх работ ---------- */
+
+.trio { padding: 8px var(--gutter) 0; }
+.trio__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.trio__grid li { aspect-ratio: 1 / 1; overflow: hidden; border-radius: 14px; background: var(--sage-deep); }
+.trio__grid img { width: 100%; height: 100%; object-fit: cover; }
+
+@media (min-width: 960px) {
+  .stage { padding-bottom: 32px; }
+  .stage__body {
+    display: block;
+    height: auto;
+    max-width: 920px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .stage__main {
+    height: clamp(420px, 58vh, 600px);
+    border-radius: 28px;
+  }
+  .stage__main > img { object-position: 50% 42%; }
+  .stage__panel {
+    left: 50%;
+    right: auto;
+    bottom: 24px;
+    width: 360px;
+    transform: translateX(-50%);
+  }
+
+  .trio { padding: 12px var(--gutter) 0; }
+  .trio__grid { max-width: 920px; margin: 0 auto; gap: 12px; }
+  .trio__grid li { border-radius: 18px; }
+}
+
+/* большой кадр с панелью убран: после заголовка сразу мини-сетка работ */
+.stage { padding-bottom: 20px; }
+.trio { padding-top: 0; }
+@media (min-width: 960px) {
+  .stage { padding: 56px var(--gutter) 40px; }
+  .trio { padding-top: 0; }
+  .trio__grid { max-width: 1000px; }
+}

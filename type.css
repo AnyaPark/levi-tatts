@@ -1,0 +1,114 @@
+/* Типографика по референсу Rilee Marie: контрастная антиква (курсив + прямые капсы в одной фразе),
+   лёгкий геометрический гротеск для основного текста, моноширинный капс для подписей и кнопок.
+   Подключается последним, после style.css (и sage.css). */
+
+.type {
+  --serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --sans: "Jost", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+/* Курсив и прямые капсы внутри одной фразы */
+.type h1 em,
+.type h2 em,
+.type .hero__lead em,
+.type .footer__title em {
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* Имя и логотип: антиква капсом вместо рукописного шрифта */
+.type .logo {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 1.45rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.type .hero__name {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(2.8rem, 14vw, 4.2rem);
+  letter-spacing: .02em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* Заголовки секций */
+.type .hero__lead,
+.type .about__text h2,
+.type .process__head h2,
+.type .footer__title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-style: normal;
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+.type .hero__lead { font-size: 1.55rem; }
+.type .about__text h2 { font-size: 2.1rem; }
+.type .process__head h2 { font-size: 1.7rem; }
+.type .footer__title { font-size: 2.2rem; }
+
+.type .about__text { text-align: center; }
+.type .about__text .label { display: block; }
+
+/* Основной текст */
+.type .hero__note { font-size: 1.05rem; line-height: 1.5; }
+.type .about__text p { font-size: 1.05rem; }
+.type .steps strong {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+.type .steps p { font-size: 1rem; line-height: 1.6; }
+.type .steps__num { font-family: var(--serif); font-size: 1.5rem; }
+.type .facts strong { font-family: var(--serif); font-weight: 400; letter-spacing: .02em; }
+
+/* Кнопки и подписи: моноширинный капс, чуть мельче */
+.type .btn { font-size: .7rem; letter-spacing: .16em; }
+
+@media (min-width: 960px) {
+  .type { font-size: 1.1rem; }
+  .type .logo { font-size: 1.7rem; }
+  .type .hero__name { font-size: 5rem; }
+  .type .hero__lead { font-size: 2rem; }
+  .type .hero__note { font-size: 1.1rem; }
+  .type .about__text p { font-size: 1.1rem; }
+  .type .about__text h2 { font-size: 3rem; }
+  .type .process__head h2 { font-size: 2.6rem; }
+  .type .steps strong { font-size: 1.5rem; }
+  .type .steps p { font-size: 1.05rem; }
+  .type .footer__title { font-size: 3.4rem; }
+}
+
+/* Ник Instagram в ссылке остаётся строчными, без капса */
+.type .handle { text-transform: none; letter-spacing: .04em; }
+
+
+
+/* ---------- новые блоки ---------- */
+
+.type .sec-title, .type .faq summary, .type .safety__list li, .type .price__list strong {
+  font-family: var(--serif);
+}
+.type .sec-title { font-weight: 400; font-style: normal; text-transform: none; letter-spacing: 0; }
+.type .price__list strong, .type .faq summary { font-weight: 400; }
+.type .safety__list li { font-weight: 400; }
+.type .price__sum, .type .sec-lead, .type .faq details p, .type .footer__gift { font-family: var(--sans); font-weight: 300; }
+.type .price__sum .ph { font-family: var(--serif); font-size: 1.3rem; color: var(--ink); }
+.sage .price .price__sum .ph { color: var(--ink); }
+.type .hero__name { font-size: clamp(2.5rem, 12.5vw, 3.8rem); letter-spacing: 0; text-transform: none; }
+@media (min-width: 960px) {
+  .type .hero__name { font-size: 4.4rem; }
+  .type .sec-title { font-size: 2.6rem; }
+}

@@ -1,0 +1,931 @@
+/* Редакционная версия (index.html; прежняя зелёная — websites/juli/archive/index-sage.html): подключается последним.
+   Приёмы: коллаж первого экрана, огромные бледные номера секций (Alyssa Marlowe, Sage),
+   цветной блок со смещением за фото (Rilee Marie), сердечко как сквозной мотив,
+   проявление фото маской при скролле (только CSS, без JS). */
+
+/* ---------- 1. первый экран: текст + коллаж ---------- */
+
+.lead { padding: 28px var(--gutter) 44px; }
+.lead__text .label { display: block; }
+
+.lead h1 {
+  margin-top: 16px;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(2.5rem, 11.5vw, 4.4rem);
+  line-height: 1.02;
+  letter-spacing: -.01em;
+}
+.lead h1 > * { display: block; }
+.lead__l2 { padding-left: 1em; color: var(--peach); }
+
+.lead__sub {
+  display: flex;
+  gap: 10px;
+  max-width: 26rem;
+  margin-top: 18px;
+  color: var(--peach);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* на телефоне кнопки уже закреплены внизу экрана */
+.lead__cta { display: none; }
+
+.lead__collage { position: relative; margin-top: 28px; aspect-ratio: 1 / 1.05; }
+.lead__collage figure {
+  position: absolute;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--sage-deep);
+}
+.lead__collage img { width: 100%; height: 100%; object-fit: cover; }
+.lead__c1 { top: 0; right: 0; width: 68%; height: 76%; }
+.lead__c2 { top: 22%; left: 0; width: 42%; height: 40%; border: 5px solid var(--sage); }
+.lead__heart { position: absolute; right: 7%; bottom: 7%; color: var(--coral); transform: rotate(-8deg); }
+
+@media (min-width: 960px) {
+  .lead {
+    display: grid;
+    grid-template-columns: 5fr 6fr;
+    gap: 56px;
+    align-items: center;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 64px var(--gutter) 96px;
+  }
+  .lead h1 { font-size: clamp(3rem, 5vw, 5.4rem); }
+  .lead__sub { margin-top: 26px; font-size: 1.12rem; }
+  .lead__cta { display: flex; align-items: center; gap: 24px; margin-top: 34px; }
+  .lead__cta .link { margin-top: 0; color: var(--paper); }
+  .lead__collage { margin-top: 0; aspect-ratio: auto; height: clamp(480px, 70vh, 680px); }
+  .lead__collage figure { border-radius: 18px; }
+  .lead__c2 { border-width: 8px; }
+}
+
+/* ---------- огромные бледные номера секций ---------- */
+
+.gallery, .price, .process, .healed, .faq {
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip;
+}
+.bignum {
+  position: absolute;
+  z-index: -1;
+  top: 12px;
+  right: calc(var(--gutter) + .12em); /* хвост курсивной цифры не обрезается краем секции */
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(7.5rem, 36vw, 19rem);
+  line-height: .8;
+  color: currentColor;
+  opacity: .08;
+  pointer-events: none;
+  user-select: none;
+}
+@media (min-width: 960px) {
+  /* цифра целиком в полосе заголовка, над контентом */
+  .bignum { top: -14px; font-size: 10rem; } /* видимая цифра ~31–120 px: низ на одной линии с низом заголовка (отступ секции 72 px) */
+}
+
+/* ---------- сердечко-разделитель ---------- */
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px var(--gutter);
+  background: var(--sage);
+  color: var(--coral);
+}
+.divider span { flex: 1; height: 1px; background: var(--line); }
+.divider--deep { background: linear-gradient(var(--sage-deep) 50%, var(--sage) 50%); }
+
+/* ---------- 2. роботи: горизонтальная лента ----------
+   Телефон: одна работа на ~82% ширины, справа выглядывает следующая, листается пальцем (scroll-snap).
+   Фото не обрезаем: у каждой работы свои пропорции. Десктоп: та же лента, фото фиксированной высоты.
+   Подписей нет: навигация — полоска прогресса и стрелки. */
+
+.works {
+  position: relative;
+  display: flex;
+  gap: 12px;
+  align-items: flex-end; /* фото разной высоты стоят на одной линии над полоской */
+  margin: 24px calc(var(--gutter) * -1) 0;
+  padding: 0 var(--gutter) 4px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  scrollbar-width: none;
+}
+.works::-webkit-scrollbar { display: none; }
+.works:focus-visible { outline-offset: -3px; }
+
+.work { flex: 0 0 84%; scroll-snap-align: start; }
+.work:last-child { margin-right: var(--gutter); }
+.work figure { margin: 0; }
+.work__img { overflow: hidden; border-radius: 3px; background: var(--paper-2); }
+.work__img img { width: 100%; height: auto; }
+
+/* линия прогресса + стрелки (появляются с JS) */
+.works-bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+.works-bar[hidden] { display: none; }
+.works-bar__line {
+  flex: 1;
+  height: 1px;
+  margin-right: 12px;
+  background: rgba(58, 47, 39, .18);
+  overflow: hidden;
+}
+.works-bar__fill {
+  display: block;
+  height: 100%;
+  background: var(--ink);
+  transform-origin: left;
+  transform: scaleX(.1);
+}
+.works-bar__btn {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: color .2s;
+}
+.works-bar__btn:hover { color: var(--red); }
+.works-bar__btn:disabled { color: rgba(58, 47, 39, .25); cursor: default; }
+
+@media (min-width: 960px) {
+  .works { gap: 24px; margin-top: 40px; }
+  .work { flex: none; }
+  .work__img img {
+    width: auto;
+    max-width: none;
+    height: clamp(400px, 62vh, 600px);
+  }
+  .works-bar { max-width: 420px; margin: 16px 0 0 auto; }
+}
+
+/* десктоп: лёгкое приближение фото при наведении, без оверлеев */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .work__img img { transition: transform .5s cubic-bezier(.2, .7, .2, 1); }
+  .work__img:hover img { transform: scale(1.025); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .works { scroll-behavior: smooth; }
+}
+
+/* ---------- 3. ціна: минимальная сумма крупно, дальше текст ---------- */
+
+.price__min { font-family: var(--serif); font-size: 2.5rem; line-height: 1; color: var(--ink); margin-top: var(--space-s); }
+@media (min-width: 768px) {
+  .price__min { font-size: 3.5rem; }
+}
+
+.price__cta { display: flex; align-items: center; gap: 14px; }
+.price__heart { color: var(--red); transform: rotate(-6deg); }
+
+/* ---------- 5. загоєні: пары «свіже → загоєне» ---------- */
+
+.pairs { display: grid; gap: 36px; margin-top: 28px; }
+.pair { margin: 0; }
+.pair__imgs {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 8px;
+}
+.pair__item {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  border-radius: 10px;
+  background: var(--sage);
+}
+.pair__item img { width: 100%; height: 100%; object-fit: cover; }
+.pair__healed { object-position: 50% 48%; }
+.pair__healed--low { object-position: 50% 56%; }
+.pair__tag {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(36, 40, 31, .72);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: .6rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.pair__tag--accent { background: var(--coral); color: var(--ink); }
+.pair__arrow { font-family: var(--mono); font-size: 1.1rem; color: var(--coral); }
+.pair figcaption {
+  margin-top: 12px;
+  font-family: var(--mono);
+  font-size: .66rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--paper-2);
+}
+
+@media (min-width: 960px) {
+  .pairs { grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 48px; }
+  .pair__imgs { gap: 14px; }
+  .pair__item { border-radius: 14px; }
+}
+
+/* ---------- 7. питання: номера, + → ×, подсветка открытого ---------- */
+
+.faq__list { counter-reset: faq; }
+.faq details { counter-increment: faq; }
+.faq summary { justify-content: flex-start; transition: color .25s; }
+.faq summary::before {
+  content: counter(faq, decimal-leading-zero);
+  flex: none;
+  width: 44px;
+  font-family: var(--mono);
+  font-size: .72rem;
+  letter-spacing: .12em;
+  color: var(--red);
+}
+.faq summary::after {
+  margin-left: auto;
+  font-size: 1.5rem;
+  line-height: 1;
+  transition: transform .3s cubic-bezier(.2, .7, .2, 1);
+}
+.faq details[open] summary::after { content: "+"; transform: rotate(45deg); }
+.faq details[open] summary,
+.faq summary:hover { color: var(--red); }
+.faq details p { padding-left: 44px; }
+
+/* мягкая заливка: шалфеем только строка открытого вопроса, ответ на бумаге; один открытый за раз (name="faq") */
+.faq summary { padding-inline: 12px; transition: color .25s, background-color .25s; }
+.faq details p { padding-left: 56px; padding-right: 12px; }
+.faq summary:active { background: rgba(58, 47, 39, .06); }
+.faq details[open] summary,
+.faq details[open] summary::before { color: var(--paper); }
+.faq details[open] summary { background: var(--sage); }
+.faq details[open] p { padding-top: 16px; }
+
+/* ---------- сердечко heart-hand дорисовывается линией (hearts.js) ---------- */
+
+.draw { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.draw.is-drawn { stroke-dashoffset: 0; transition: stroke-dashoffset 1.4s cubic-bezier(.6, .1, .3, 1); }
+
+/* ---------- футер и нижние кнопки ---------- */
+
+.footer__heart { display: block; margin: 0 auto 14px; color: var(--coral); transform: rotate(-8deg); }
+
+.dock { padding: 8px var(--gutter) calc(8px + env(safe-area-inset-bottom)); }
+.dock .btn { min-height: 44px; }
+
+/* ---------- движение: только если человек не отключил анимации ----------
+   Проявлений при скролле нет: фото и номера видны сразу, страница просто прокручивается. */
+
+@keyframes faq-in { from { opacity: 0; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: no-preference) {
+  .faq details[open] p { animation: faq-in .35s both; }
+}
+
+/* ---------- фон: тёплая бумага как основа, шалфей — акцентные секции ----------
+   Ритм: бумага (первый экран) → шалфей (про мене) → светлая бумага (роботи) → бумага (ціна)
+   → шалфей (процес) → бумага (загоєні) → тёмный шалфей (безпека) → светлая бумага (питання) → графит (футер). */
+
+.sage {
+  --bg-paper: #e9e5da;
+  --bg-ivory: #f2efe7;
+  --graphite: #2b2a25;
+  --line-ink: rgba(58, 47, 39, .16);
+
+  background: var(--bg-paper);
+  color: var(--ink);
+}
+
+/* шапка и первый экран на бумаге */
+.sage .site-header { background: var(--bg-paper); border-bottom-color: var(--line-ink); }
+.sage .logo,
+.sage .nav a,
+.sage .nav a:hover { color: var(--ink); }
+.sage .nav a { background: rgba(58, 47, 39, .06); }
+.sage .nav a:hover { background: rgba(58, 47, 39, .12); }
+
+.sage .lead .label,
+.sage .gallery .label,
+.sage .healed .label { color: var(--muted); }
+.sage .lead .label .num,
+.sage .gallery .label .num,
+.sage .healed .label .num { color: var(--red); }
+
+.lead__l2 { color: var(--sage); }
+.lead__sub { color: var(--muted); }
+.sage .lead .heart,
+.lead__heart { color: var(--red); }
+.lead__c2 { border-color: var(--bg-paper); }
+
+.sage .site-header .btn--solid,
+.sage .lead .btn--solid { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.sage .site-header .btn--solid:hover,
+.sage .lead .btn--solid:hover { background: var(--red); border-color: var(--red); color: var(--paper); }
+@media (min-width: 960px) {
+  .lead__cta .link { color: var(--ink); }
+}
+
+.sage .site-header :focus-visible,
+.sage .lead :focus-visible,
+.sage .gallery :focus-visible,
+.sage .price :focus-visible,
+.sage .healed :focus-visible { outline-color: var(--red); }
+
+/* разделитель перед «Роботи» — уже на светлой бумаге */
+.divider { background: var(--bg-ivory); color: var(--red); }
+.divider span { background: var(--line-ink); }
+.divider--deep { background: linear-gradient(var(--bg-paper) 50%, var(--sage-deep) 50%); color: var(--coral); }
+.divider--deep span { background: var(--line); }
+
+/* секции */
+.sage .gallery { background: var(--bg-ivory); color: var(--ink); }
+.sage .price { background: var(--bg-paper); }
+.sage .process { background: var(--sage); color: var(--paper); }
+
+.sage .healed { background: var(--bg-paper); color: var(--ink); }
+.pair__item { background: var(--bg-ivory); }
+.pair figcaption { color: var(--muted); }
+.sage .healed .proto-note { border-color: rgba(58, 47, 39, .35); color: var(--muted); }
+
+.sage .faq { background: var(--bg-ivory); }
+.sage .footer { background: var(--graphite); }
+
+/* ---------- плотнее: меньше пустоты между секциями ----------
+   Было 56 px (телефон) и 96 px (десктоп) сверху и снизу каждой секции. */
+
+.lead { padding-bottom: 32px; }
+.sage .about { padding-top: 24px; padding-bottom: 24px; }
+.gallery, .price, .process, .healed, .faq { padding-top: 40px; padding-bottom: 40px; }
+.divider { padding-top: 4px; padding-bottom: 4px; }
+.sage .footer { padding-top: 44px; }
+
+@media (min-width: 960px) {
+  .lead { padding-top: 48px; padding-bottom: 56px; }
+  .sage .about { padding-top: 40px; padding-bottom: 40px; }
+  .gallery, .price, .process, .healed, .faq { padding-top: 64px; padding-bottom: 64px; }
+  .pairs { margin-top: 40px; }
+  .sage .footer { padding-top: 48px; padding-bottom: 48px; }
+  .sage .footer__gift { margin-top: 20px; }
+  .footer__small { margin-top: 20px; }
+
+  /* подзаголовок первого экрана в одну строку */
+  .lead__sub { max-width: none; }
+
+  /* питання: список на всю ширину, ответы ~65 знаков в строке */
+  .faq__list { max-width: none; }
+  .faq details p { max-width: calc(65ch + 68px); }
+
+  /* заголовки секций в одну строку (на телефоне переносятся) */
+  .sec-head, .process__head { max-width: none; }
+  .type .sec-title,
+  .type .process__head h2 { white-space: nowrap; font-size: min(2.6rem, 2.5vw); }
+}
+
+/* ---------- палитра 2 + 1: бумага, коричневый, красный акцент ----------
+   Все прежние цвета (шалфей, графит, песок, персик, коралл, оттенки бумаги) сведены к трём.
+   Оттенки — только прозрачность этих трёх. Переопределяем токены здесь, а не в sage.css:
+   sage.css и about.css общие с архивной зелёной версией. */
+
+body.sage {
+  --paper: #f2efe7;
+  --ink: #3a2f27;
+  --red: #b3261e;
+
+  --paper-2: rgba(242, 239, 231, .75);  /* второстепенный текст на коричневом */
+  --muted: rgba(58, 47, 39, .75);       /* второстепенный текст на бумаге */
+  --line: rgba(242, 239, 231, .28);
+  --line-ink: rgba(58, 47, 39, .16);
+
+  --bg-paper: var(--paper);
+  --bg-ivory: var(--paper);
+  --sage: var(--ink);
+  --sage-deep: var(--ink);
+  --graphite: var(--ink);
+  --sand: var(--paper);
+  --peach: var(--paper);
+  --coral: var(--red);
+}
+
+.pair__tag { background: rgba(58, 47, 39, .8); }
+.footer__small { color: rgba(242, 239, 231, .55); }
+.pair__tag--accent { background: var(--red); color: var(--paper); }
+
+/* фокус на коричневых секциях — светлый, красный там плохо виден */
+.sage .about :focus-visible,
+.sage .process :focus-visible,
+.sage .footer :focus-visible,
+.sage .dock :focus-visible { outline-color: var(--paper); }
+
+/* ================= система: отступы, кнопки, шрифты =================
+   Отступы — только два: --space-l (между секциями и крупными блоками) и --space-s (внутри блока).
+   Внутренние поля кнопок и межстрочные интервалы в систему не входят. */
+
+body.sage {
+  --space-l: 40px;
+  --space-s: 16px;
+  --mono: var(--sans); /* третий шрифт (IBM Plex Mono) убран: подписи и кнопки — Jost капсом */
+}
+@media (min-width: 960px) {
+  body.sage { --space-l: 72px; --space-s: 24px; }
+}
+
+/* --- отступы секций --- */
+body.sage .lead,
+body.sage .about,
+body.sage .gallery,
+body.sage .price,
+body.sage .process,
+body.sage .healed,
+body.sage .faq { padding-top: var(--space-l); padding-bottom: var(--space-l); }
+/* футер ниже: 32 px телефон / 48 px десктоп */
+body.sage .footer { padding-top: calc(var(--space-s) * 2); padding-bottom: calc(var(--space-s) * 2); }
+
+/* --- отступы внутри секций --- */
+body.sage .lead h1,
+body.sage .lead__sub,
+body.sage .lead__cta,
+body.sage .lead__collage,
+body.sage .sec-lead,
+body.sage .works,
+body.sage .works-bar,
+body.sage .gallery__more,
+body.sage .proto-note,
+body.sage .price__cta,
+body.sage .process__photo,
+body.sage .pairs,
+body.sage .pair figcaption,
+body.sage .faq__list,
+body.sage .footer__buttons,
+body.sage .footer__gift,
+body.sage .footer__small { margin-top: var(--space-s); }
+
+body.sage .about__frame,
+body.sage .about__panel { padding: var(--space-s); }
+body.sage .about__panel { gap: var(--space-s); }
+body.sage .about__text h2 { margin: 0 0 var(--space-s); }
+body.sage .footer__heart { margin-bottom: var(--space-s); }
+
+body.sage .pair__imgs { gap: var(--space-s); }
+body.sage .steps li { padding: var(--space-s) 0; }
+body.sage .faq details[open] p { padding-top: var(--space-s); padding-bottom: var(--space-s); }
+
+/* между крупными блоками внутри секции — большой отступ */
+body.sage .pairs { gap: var(--space-l); }
+
+@media (min-width: 960px) {
+  body.sage .lead { gap: var(--space-l); }
+  body.sage .lead__collage { margin-top: 0; }
+  body.sage .about__frame { padding: var(--space-l); }
+  body.sage .about__panel { padding: 0; gap: 0; }
+  body.sage .about__text { padding: var(--space-l); }
+  body.sage .about__photo { margin: var(--space-s) var(--space-s) var(--space-s) 0; }
+  body.sage .process { column-gap: var(--space-l); }
+  body.sage .process__head { margin-bottom: var(--space-s); }
+  body.sage .process__photo { margin: 0; }
+  body.sage .steps { margin-top: 0; }
+  body.sage .works { gap: var(--space-s); }
+}
+
+/* --- кнопки: один стиль ---
+   Сплошная заливка, скругление 10 px, Jost капсом. На бумаге — коричневая, на коричневом — светлая.
+   Наведение — красный. В шапке та же кнопка, только ниже (40 px). */
+
+body.sage .btn {
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 24px;
+  border: 1px solid var(--ink);
+  border-radius: 10px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: .75rem;
+  line-height: 1.3;
+  letter-spacing: .14em;
+}
+body.sage .about .btn,
+body.sage .process .btn,
+body.sage .footer .btn,
+body.sage .dock .btn { background: var(--paper); border-color: var(--paper); color: var(--ink); }
+body.sage .btn:hover { background: var(--red); border-color: var(--red); color: var(--paper); }
+body.sage .btn--small { min-height: 40px; padding: 0 16px; }
+body.sage .site-header .btn { border-radius: 10px; } /* в stage.css была «таблетка» */
+.btn__icon { flex: none; width: 18px; height: 18px; }
+
+body.sage .footer__buttons { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-s); }
+/* .lead__cta на телефоне скрыт выше: кнопки закреплены внизу */
+@media (min-width: 960px) {
+  body.sage .lead__cta { display: flex; align-items: center; gap: var(--space-s); }
+}
+body.sage .footer__buttons { justify-content: center; }
+
+.gallery__more { display: flex; justify-content: flex-end; }
+@media (max-width: 959px) {
+  .gallery__more .btn { width: 100%; }
+}
+
+/* --- шрифты: Playfair Display (заголовки) + Jost (текст, подписи, кнопки) ---
+   Межстрочный: крупные заголовки 1.0, заголовки 1.15, текст 1.6, подписи капсом 1.3. */
+
+body.sage.type { line-height: 1.6; letter-spacing: .01em; }
+
+body.sage .lead h1 { line-height: 1; letter-spacing: -.02em; }
+body.sage .bignum { letter-spacing: -.02em; }
+body.sage.type h1 em,
+body.sage.type h2 em,
+body.sage.type .footer__title em { letter-spacing: inherit; }
+
+body.sage .sec-title,
+body.sage .process__head h2,
+body.sage .about__text h2,
+body.sage .footer__title,
+body.sage .faq summary,
+body.sage .steps strong { line-height: 1.15; letter-spacing: -.01em; }
+
+body.sage .label,
+body.sage .strip,
+body.sage .nav a,
+body.sage .pair__tag,
+body.sage .pair figcaption,
+body.sage .proto-note,
+body.sage .tag,
+body.sage .footer__small,
+body.sage .faq summary::before {
+  font-family: var(--sans);
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: .14em;
+}
+body.sage .lead__sub,
+body.sage .sec-lead,
+body.sage .about__text p,
+body.sage .steps p,
+body.sage .faq details p,
+body.sage .footer__gift { line-height: 1.6; }
+
+/* ---------- четвёртый цвет: шалфей (решение 07.10) ----------
+   Шалфей — спокойные, информационные места: «Процес», «Безпека», строка открытого вопроса FAQ,
+   блок со смещением в «Ціні», слово «індивідуально». Коричневый — тёплое и контакты:
+   «Про мене», футер, нижние кнопки, полоска с адресом. Красного текста на шалфее нет (контраст 1,1:1). */
+
+body.sage {
+  --sage: #656a5a;      /* светлый текст на нём 4,9:1 */
+  --sage-deep: var(--sage);
+}
+
+/* about.css и sage.css берут фон из --sage: здесь закрепляем коричневый */
+body.sage .about,
+body.sage .strip,
+body.sage .dock { background-color: var(--ink); }
+body.sage .about__frame { background-color: var(--ink); }
+
+/* полоса-анонс: на телефоне разрядка меньше, чтобы полное название остановки влезло в одну строку (15.10) */
+@media (max-width: 959px) {
+  body.sage .strip { letter-spacing: .1em; text-wrap: balance; }
+}
+
+/* ---------- шапка на телефоне: кнопка из двух линий + меню-popover ----------
+   Без поддержки popover кнопка не показывается, шапка остаётся с одним логотипом. */
+
+.menu-btn { display: none; }
+@supports selector(:popover-open) {
+  @media (max-width: 959px) {
+  .menu-btn {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 7px;
+    width: 44px;
+    height: 44px;
+    margin-right: -10px;
+    padding: 10px;
+    border: 0;
+    background: none;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  }
+}
+.menu-btn span { display: block; width: 24px; height: 1.6px; border-radius: 1px; background: currentColor; }
+.menu-btn span:last-child { width: 16px; }
+.menu-btn:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+
+body.sage .nav:popover-open {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  inset: 0 0 auto;      /* top задаёт menu.js: ровно под шапкой */
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 8px var(--gutter) var(--space-s);
+  border: 0;
+  border-bottom: 1px solid var(--line-ink);
+  background: var(--paper);
+  color: var(--ink);
+}
+body.sage .nav:popover-open a {
+  padding: 12px 0;
+  border-radius: 0;
+  background: none;
+  font-family: var(--serif);
+  font-size: 1.6rem;
+  font-style: italic;
+  line-height: 1.15;
+  letter-spacing: -.01em;
+  text-transform: none;
+  text-decoration: none;
+}
+body.sage .nav:popover-open a + a { border-top: 1px solid var(--line-ink); }
+body.sage .nav:popover-open a:hover { color: var(--red); }
+.nav::backdrop { background: rgba(58, 47, 39, .3); }
+
+@media (min-width: 960px) {
+  /* на десктопе меню — обычная строка: снимаем стили popover из браузера */
+  body.sage .site-header .nav[popover] {
+    position: static;
+    inset: auto;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    overflow: visible;
+  }
+}
+
+/* ---------- 4. процес: короче ----------
+   Телефон: фото 16:9, шаги — лента карточек, листается пальцем (как галерея).
+   Десктоп: фото уже, шаги в две колонки (01–04 и 05–07). */
+
+@media (max-width: 959px) {
+  body.sage .process__photo { aspect-ratio: 16 / 9; }
+  body.sage .steps {
+    display: flex;
+    gap: 12px;
+    margin-inline: calc(var(--gutter) * -1);
+    padding: 0 var(--gutter) 4px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+  body.sage .steps::-webkit-scrollbar { display: none; }
+  body.sage .steps:focus-visible { outline-offset: -3px; }
+  body.sage .steps li {
+    display: block;
+    flex: 0 0 80%;
+    padding: var(--space-s);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    scroll-snap-align: start;
+  }
+  body.sage .steps li:last-child { margin-right: var(--gutter); border-bottom-color: var(--line); }
+  body.sage .steps__num { margin-bottom: 12px; }
+}
+
+@media (min-width: 960px) {
+  body.sage .process { grid-template-columns: 4fr 8fr; }
+  body.sage .steps {
+    display: grid;
+    grid-template-rows: repeat(4, auto);
+    grid-auto-flow: column;
+    column-gap: var(--space-l);
+    align-content: start;
+  }
+  body.sage .steps li { grid-template-columns: 72px 1fr; }
+  body.sage .steps li:last-child { border-bottom: 0; }
+}
+
+/* ---------- 6. загоєні: пары как полароиды ----------
+   Рамка цвета бумаги, снизу шире, подпись внутри. Наклон −2° / +2°.
+   Телефон: «свіже» слева, «загоєне» справа и заходит на неё снизу, как стопка фото. */
+
+body.sage .pair__item {
+  overflow: visible;
+  aspect-ratio: auto;
+  padding: 8px 8px 0;
+  border: 1px solid var(--line-ink);
+  border-radius: 3px;
+  background: var(--paper);
+  transform: rotate(-2deg);
+}
+body.sage .pair__item + .pair__arrow + .pair__item { transform: rotate(2deg); }
+body.sage .pair__item img { aspect-ratio: 4 / 5; height: auto; border-radius: 2px; }
+body.sage .pair__tag {
+  position: static;
+  display: block;
+  padding: 10px 2px 12px;
+  border-radius: 0;
+  background: none;
+  color: var(--muted);
+  text-align: center;
+}
+body.sage .pair__tag--accent { background: none; color: var(--red); }
+
+@media (max-width: 959px) {
+  body.sage .pair__imgs { display: flex; flex-direction: column; gap: 0; }
+  body.sage .pair__arrow { display: none; }
+  body.sage .pair__item { width: 72%; }
+  body.sage .pair__item:first-child { align-self: flex-start; }
+  body.sage .pair__item:first-child .pair__tag { text-align: left; }
+  body.sage .pair__item + .pair__arrow + .pair__item {
+    position: relative;
+    z-index: 1;
+    align-self: flex-end;
+    margin-top: -32%;
+  }
+  body.sage .pair__item + .pair__arrow + .pair__item .pair__tag { text-align: right; }
+}
+@media (min-width: 960px) {
+  body.sage .pair__item { border-radius: 4px; }
+}
+
+/* ---------- подсказка «що написати» у кнопок ---------- */
+
+.ask { margin-top: var(--space-s); }
+.ask__title {
+  font-family: var(--sans);
+  font-size: .72rem;
+  line-height: 1.3;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  opacity: .75;
+}
+.ask__list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 1rem;
+}
+.ask__list li + li::before { content: "·"; margin: 0 .6em; opacity: .6; }
+
+/* ---------- меньше кнопок «написати» ----------
+   Телефон: нижняя панель видна всегда, поэтому кнопки футера её не дублируют.
+   Кнопки в «Про мене» убраны из HTML везде. */
+
+@media (max-width: 959px) {
+  body.sage .footer__buttons { display: none; }
+}
+
+/* кнопка в рамке: «подивитись ще», не «написати». Заливка — только для сообщения Юлії */
+body.sage .btn--outline { background: transparent; border-color: var(--ink); color: var(--ink); }
+
+/* ---------- футер: всё по центру, сертификат только текстом (фото убрано 11.10) ---------- */
+
+body.sage .gift { max-width: 34rem; margin: var(--space-s) auto 0; }
+body.sage .gift .footer__gift { margin: 0; text-align: center; }
+
+/* ---------- коллаж первого экрана: два фото (15.10) ----------
+   Кролики крупно справа снизу, мак внахлёст слева сверху: в кадре кроликов свободна только кожа
+   в левом верхнем углу, в другом месте мак закрыл бы кролика. Сердечко в пустом углу слева снизу. */
+
+.lead__c1 { top: auto; bottom: 0; left: auto; right: 0; width: 72%; height: 80%; }
+.lead__c1 img { object-position: 50% 50%; } /* кадр -sq-540 вырезан из оригинала без полосатой ткани */
+.lead__c2 { top: 0; left: 0; right: auto; bottom: auto; width: 42%; height: 42%; }
+.lead__heart { top: auto; right: auto; left: 8%; bottom: 8%; }
+
+/* ---------- 4. процес: «шлях тату» ----------
+   Тонкая светлая линия проходит через кружки с номерами всех семи шагов (на шалфее красный не виден,
+   поэтому линия цвета бумаги). Иконок у шагов нет, текст на всю ширину колонки. Телефон и десктоп — один столбец,
+   лента карточек убрана: длинные тексты свёрнуты в «детальніше». */
+
+body.sage .steps {
+  --node: 44px;
+  display: block;
+  margin-inline: 0;
+  padding: 0;
+  overflow: visible;
+  scroll-snap-type: none;
+}
+body.sage .steps li {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--node) minmax(0, 1fr);
+  column-gap: var(--space-s);
+  align-items: start;
+  margin: 0;
+  padding: var(--space-s) 0;
+  border: 0;
+  border-radius: 0;
+  view-timeline: --step;
+}
+/* отрезок линии: от центра своего кружка до центра следующего */
+body.sage .steps li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--node) / 2 - .5px);
+  top: calc(var(--space-s) + var(--node) / 2);
+  bottom: calc((var(--space-s) + var(--node) / 2) * -1);
+  width: 1px;
+  background: rgba(242, 239, 231, .55);
+  transform-origin: top;
+}
+body.sage .steps__num {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  background: var(--sage); /* кружок перекрывает линию */
+}
+body.sage .steps__body > p { margin-top: 4px; }
+
+/* «детальніше» */
+.steps__more summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  list-style: none;
+  cursor: pointer;
+  color: var(--paper);
+  font-family: var(--sans);
+  font-size: .72rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+.steps__more summary::-webkit-details-marker { display: none; }
+.steps__more summary::after { content: "↓"; display: inline-block; transition: transform .25s; } /* inline-block: без подчёркивания */
+.steps__more[open] summary::after { transform: rotate(180deg); }
+.steps__more summary:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
+body.sage .steps__more p { margin: 0; color: var(--paper-2); }
+@media (prefers-reduced-motion: no-preference) {
+  .steps__more[open] p { animation: faq-in .35s both; }
+}
+
+@media (min-width: 960px) {
+  body.sage .steps li { grid-template-columns: var(--node) minmax(0, 1fr); }
+}
+
+/* линия дорисовывается вниз по мере прокрутки (CSS scroll-driven animations).
+   Где не поддерживается или анимации выключены — линия просто видна целиком. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    body.sage .steps li:not(:last-child)::after {
+      animation: path-draw linear both;
+      animation-timeline: --step;
+      animation-range: cover 20% cover 55%;
+    }
+  }
+}
+@keyframes path-draw { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+
+/* ---------- 2. роботи: «приближение» ----------
+   Фото чуть больше своего окна (×1.07) и при листании сдвигается внутри него на ±10 px:
+   карточка едет, а фото отстаёт от неё. Только CSS; без поддержки фото стоит на месте. */
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .work { view-timeline: --work inline; }
+    .work__img img {
+      scale: 1.07;
+      animation: work-drift linear both;
+      animation-timeline: --work;
+    }
+  }
+}
+@keyframes work-drift { from { translate: -10px 0; } to { translate: 10px 0; } }
+
+/* счётчик «03 / 15» слева от линии прогресса */
+.works-bar__count {
+  min-width: 4.5em;
+  font-family: var(--sans);
+  font-size: .75rem;
+  letter-spacing: .14em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+/* ---------- соседние секции на одном фоне: между ними один отступ, а не два (11.10) ----------
+   Галерея и «Ціна» — обе на бумаге: шва не видно, отступы складывались. */
+body.sage .gallery { padding-bottom: 0; }

@@ -1,0 +1,43 @@
+/* Вариант 15.10 (index-gallery-mosaic.html): меню на десктопе как на телефоне — кнопка из двух полосок слева,
+   по нажатию выпадает панель с разделами (тот же popover и menu.js). Пилюли в шапке убраны (решение Ани).
+   Без поддержки popover остаются старые пилюли. */
+
+@supports selector(:popover-open) {
+  @media (min-width: 960px) {
+    .menu-btn {
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 7px;
+      order: 1;
+      justify-self: start;
+      width: 44px;
+      height: 44px;
+      margin-left: -10px;
+      padding: 10px;
+      border: 0;
+      background: none;
+      color: var(--ink);
+      cursor: pointer;
+    }
+    .menu-btn:hover { color: var(--red); }
+
+    body.sage .site-header .nav:not(:popover-open) { display: none; }
+
+    /* панель под кнопкой, слева; top ставит menu.js — ровно под шапкой */
+    body.sage .site-header .nav[popover]:popover-open {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      inset: auto auto auto var(--gutter);
+      width: 320px;
+      margin: 0;
+      padding: 8px 24px 16px;
+      border: 1px solid var(--line-ink);
+      border-top: 0;
+      background: var(--paper);
+      color: var(--ink);
+    }
+  }
+}

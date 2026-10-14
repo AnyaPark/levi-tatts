@@ -1,0 +1,207 @@
+/* Версия «шавлія + персик»: поверх style.css, только для index-sage.html.
+   Референс: лендинг курса флористики (шавлиевый + тёплый персиковый, антиква капсом с разрядкой). */
+
+.sage {
+  --paper: #f4ecdf;
+  --paper-2: #e6d6bf;
+  --ink: #3a2f27;
+  --muted: #6a5a4c;
+  --red: #b3261e;
+  --line: rgba(244, 236, 223, .28);
+
+  --sage: #656a5a;
+  --sage-deep: #4f5447;
+  --sand: #cdb08f;
+  --peach: #e4cfb4;
+  --coral: #f0b8a8;
+
+  background: var(--sage);
+  color: var(--paper);
+}
+
+.sage :focus-visible { outline-color: var(--coral); }
+
+/* ---------- общие ---------- */
+
+.sage .label { color: rgba(244, 236, 223, .78); }
+.sage .label .num { color: var(--coral); }
+
+.sage .btn { border-radius: 10px; }
+.sage .btn--solid { background: var(--sand); color: var(--ink); border-color: var(--sand); }
+.sage .btn--solid:hover { background: var(--paper); border-color: var(--paper); }
+.sage .btn--ghost { color: var(--paper); border-color: rgba(244, 236, 223, .7); }
+.sage .btn--ghost:hover { background: var(--paper); color: var(--ink); }
+.sage .link:hover { color: var(--coral); }
+.sage .heart { color: var(--coral); }
+
+.sage .strip { background: var(--sage-deep); color: var(--paper-2); }
+
+.sage .site-header { background: var(--sage); border-bottom-color: var(--line); }
+.sage .logo { color: var(--paper); }
+.sage .nav a { color: var(--paper); }
+.sage .nav a:hover { color: var(--coral); }
+
+/* ---------- первый экран ---------- */
+
+.sage .hero { background: var(--sage); }
+.sage .hero__photo { background: transparent; }
+.sage .hero__photo img {
+  -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+}
+.sage .hero__panel {
+  margin: -72px 0 0;
+  padding: 0 var(--gutter) 8px;
+  background: transparent;
+  border: 0;
+}
+.sage .hero__name { color: var(--paper); }
+.sage .hero__lead { color: var(--paper); }
+.sage .hero__note { color: var(--peach); }
+.sage .hero__strip li { border-radius: 12px; background: var(--sage-deep); }
+.sage .hero__strip { margin-top: 24px; padding-bottom: 8px; }
+
+/* ---------- про мене ---------- */
+
+.sage .about {
+  background: linear-gradient(160deg, var(--peach) 0%, var(--sand) 100%);
+  color: var(--ink);
+}
+.sage .about .label { color: var(--muted); }
+.sage .about .label .num { color: var(--red); }
+.sage .about__text h2,
+.sage .process__head h2,
+.sage .footer__title {
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  line-height: 1.15;
+}
+.sage .about__text h2 { font-size: 1.9rem; }
+
+/* ---------- факты (вместо тёмной полосы) ---------- */
+
+.sage .facts {
+  display: grid;
+  gap: 22px;
+  padding: 36px var(--gutter);
+  background: var(--paper);
+  color: var(--ink);
+  text-align: center;
+}
+.sage .facts strong {
+  display: block;
+  font-size: 2.1rem;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.sage .facts span {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: .68rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---------- как всё происходит ---------- */
+
+.sage .process { background: var(--sage); }
+.sage .process__head h2 { font-size: 1.7rem; }
+.sage .process__photo { border-radius: 14px; background: var(--sage-deep); }
+.sage .steps li { border-top-color: var(--line); }
+.sage .steps li:last-child { border-bottom-color: var(--line); }
+.sage .steps__num {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(244, 236, 223, .7);
+  border-radius: 50%;
+  font-size: 1.15rem;
+  line-height: 1;
+  color: var(--paper);
+}
+.sage .steps strong { color: var(--paper); }
+.sage .steps p { color: var(--paper-2); }
+
+/* ---------- футер и кнопки ---------- */
+
+.sage .footer {
+  margin-top: 0;
+  background: linear-gradient(135deg, var(--sage-deep) 0%, #6f6350 100%);
+}
+.sage .footer__title { font-size: 2.1rem; }
+.sage .btn--paper { background: var(--sand); color: var(--ink); border-color: var(--sand); }
+.sage .btn--paper:hover { background: var(--paper); border-color: var(--paper); color: var(--ink); }
+.sage .btn--outline { border-radius: 10px; }
+
+.sage .dock { background: var(--sage-deep); border-top-color: var(--line); }
+
+/* ---------- планшет и десктоп ---------- */
+
+@media (min-width: 960px) {
+  .sage .hero { background: linear-gradient(100deg, var(--sage) 0%, var(--sage) 42%, #b59c80 100%); }
+  .sage .hero__panel {
+    margin: 0;
+    padding: 48px var(--gutter);
+    border: 0;
+  }
+  .sage .hero__photo img {
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 28%);
+            mask-image: linear-gradient(to right, transparent 0%, #000 28%);
+  }
+  .sage .hero__strip { gap: 8px; margin: 0; padding: 8px 8px 8px 0; }
+
+  .sage .about__text h2 { font-size: 2.8rem; }
+
+  .sage .facts { grid-template-columns: repeat(3, 1fr); padding: 56px var(--gutter); gap: 32px; }
+  .sage .facts strong { font-size: 3rem; }
+  .sage .facts span { font-size: .74rem; }
+
+  .sage .process__head h2 { font-size: 2.6rem; }
+  .sage .steps__num { width: 56px; height: 56px; font-size: 1.4rem; }
+  .sage .steps li { grid-template-columns: 84px 1fr; }
+  .sage .footer__title { font-size: 3.4rem; }
+}
+
+
+/* ---------- новые блоки ---------- */
+
+.sage .sec-lead { color: var(--paper-2); }
+.sage .proto-note { border-color: rgba(244, 236, 223, .35); color: var(--paper-2); }
+
+.sage .gallery { background: var(--sage); }
+.sage .gallery__grid figure { background: var(--sage-deep); border-radius: 10px; overflow: hidden; }
+
+.sage .price {
+  background: linear-gradient(160deg, var(--peach) 0%, var(--sand) 100%);
+  color: var(--ink);
+}
+.sage .price .label { color: var(--muted); }
+.sage .price .label .num { color: var(--red); }
+.sage .price .sec-lead, .sage .price__sum { color: var(--muted); }
+.sage .price .proto-note { border-color: rgba(58, 47, 39, .35); color: var(--muted); }
+.sage .price__list img { border-radius: 10px; }
+.sage .price .btn--solid { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.sage .price .btn--solid:hover { background: var(--red); border-color: var(--red); }
+
+.sage .healed { background: var(--sage-deep); }
+.sage .healed__grid figure { background: transparent; }
+.sage .healed__grid img { border-radius: 10px; }
+.sage .healed__grid figcaption { background: transparent; color: var(--paper-2); }
+
+.sage .safety { background: var(--sage); }
+.sage .safety__list li { border-color: var(--line); }
+
+.sage .faq { background: var(--paper); color: var(--ink); }
+.sage .faq .label { color: var(--muted); }
+.sage .faq .label .num { color: var(--red); }
+.sage .faq details { border-color: rgba(58, 47, 39, .22); }
+.sage .faq details p { color: var(--muted); }
+.sage .faq :focus-visible { outline-color: var(--red); }
+.sage .footer__gift { color: var(--paper-2); }
