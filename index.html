@@ -238,11 +238,15 @@
       </div>
 
       <figure class="process__photo">
+        <!-- телефон: горизонтальный кадр 16:9 без головы клиента (15.10); десктоп: полное вертикальное фото -->
+        <picture>
+        <source media="(max-width: 959px)" srcset="img/process-01-julia-working-wide-970.jpg" width="970" height="546">
         <img src="img/process-01-julia-working-800.jpg"
              srcset="img/process-01-julia-working-800.jpg 800w, img/process-01-julia-working.jpg 1170w"
              sizes="(min-width: 960px) 36vw, 100vw"
              width="1170" height="1351" loading="lazy"
              alt="Юлія в рожевій футболці за роботою, у чорних рукавичках, у світлі кільцевої лампи">
+        </picture>
       </figure>
 
       <!-- «шлях тату»: тонкая линия через семь шагов, у каждого шага свой рисунок линией.

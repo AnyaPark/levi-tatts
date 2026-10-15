@@ -460,10 +460,12 @@ body.sage .faq { padding-top: var(--space-l); padding-bottom: var(--space-l); }
   body.sage .process,
   body.sage .faq { padding-top: calc(var(--space-s) * 1.5); }
   body.sage .process__head h2 { margin-top: 0; }
-  /* 03 не уходит под фото «Процесу»: цифра у верха секции, фото чуть ниже */
-  body.sage .process .bignum { top: 0; }
+  /* 15.10: большие цифры на телефоне меньше (~80 px) и у верха секции — не уходят под фото */
+  body.sage .bignum { top: 0; font-size: 5rem; }
   body.sage .process .process__photo { margin-top: calc(var(--space-s) * 1.5); }
 }
+/* фото «Процесу»: <picture> не мешает img заполнять рамку (на телефоне — свой кадр 16:9) */
+.process__photo picture { display: contents; }
 /* 15.10: на шалфее светлая цифра при .08 почти не видна */
 body.sage .process .bignum { opacity: .2; }
 /* сертификат в футере: на телефоне перенос после «суму», на десктопе строка целиком */
