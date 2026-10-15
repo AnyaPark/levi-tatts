@@ -3,6 +3,9 @@
    Коллаж .lead__collage здесь не используется. Телефон: 2 × 2, десктоп: 4 в ряд, ряд помещается в первый экран. */
 
 body.sage .lead--row { display: block; }
+/* 15.10: отступ от шапки до заголовка меньше (просьба Ани): телефон 56 → 24 px, как у остальных секций */
+body.sage .lead--row { padding-top: calc(var(--space-s) * 1.5); }
+body.sage .lead--row h1 { margin-top: 0; }
 
 .lead--row h1 > * { display: inline; }
 .lead--row .lead__l2 { padding-left: 0; }
@@ -29,7 +32,7 @@ body.sage .lead--row { display: block; }
 .lead__works img { width: 100%; height: 100%; object-fit: cover; }
 
 @media (min-width: 960px) {
-  body.sage .lead--row { padding-top: 40px; }
+  body.sage .lead--row { padding-top: var(--space-s); } /* 15.10: 40 → 24 px */
 
   /* 15.10: подпись «Юлія · тату майстриня» убрана (решение Ани). Заголовок одной строкой на ширину ряда фото,
      под ним подпись; кнопка переехала под фото (.lead__bottom) */
