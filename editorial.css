@@ -29,9 +29,6 @@
   line-height: 1.5;
 }
 
-/* на телефоне кнопки уже закреплены внизу экрана */
-.lead__cta { display: none; }
-
 .lead__collage { position: relative; margin-top: 28px; aspect-ratio: 1 / 1.05; }
 .lead__collage figure {
   position: absolute;
@@ -125,11 +122,13 @@
 .works::-webkit-scrollbar { display: none; }
 .works:focus-visible { outline-offset: -3px; }
 
-.work { flex: 0 0 84%; scroll-snap-align: start; }
+/* 15.10: на телефоне у всех фото одна высота, ширина по пропорции, без обрезки — высота ленты не прыгает.
+   Высота = ширина квадратного фото, чтобы и квадрат помещался в экран */
+.work { flex: none; scroll-snap-align: start; }
 .work:last-child { margin-right: var(--gutter); }
 .work figure { margin: 0; }
 .work__img { overflow: hidden; border-radius: 3px; background: var(--paper-2); }
-.work__img img { width: 100%; height: auto; }
+.work__img img { width: auto; max-width: none; height: min(86vw, 440px); }
 
 /* линия прогресса + стрелки (появляются с JS) */
 .works-bar {
@@ -287,12 +286,9 @@
 .draw { stroke-dasharray: 1; stroke-dashoffset: 1; }
 .draw.is-drawn { stroke-dashoffset: 0; transition: stroke-dashoffset 1.4s cubic-bezier(.6, .1, .3, 1); }
 
-/* ---------- футер и нижние кнопки ---------- */
+/* ---------- футер ---------- */
 
 .footer__heart { display: block; margin: 0 auto 14px; color: var(--coral); transform: rotate(-8deg); }
-
-.dock { padding: 8px var(--gutter) calc(8px + env(safe-area-inset-bottom)); }
-.dock .btn { min-height: 44px; }
 
 /* ---------- движение: только если человек не отключил анимации ----------
    Проявлений при скролле нет: фото и номера видны сразу, страница просто прокручивается. */
@@ -434,8 +430,7 @@ body.sage {
 /* фокус на коричневых секциях — светлый, красный там плохо виден */
 .sage .about :focus-visible,
 .sage .process :focus-visible,
-.sage .footer :focus-visible,
-.sage .dock :focus-visible { outline-color: var(--paper); }
+.sage .footer :focus-visible { outline-color: var(--paper); }
 
 /* ================= система: отступы, кнопки, шрифты =================
    Отступы — только два: --space-l (между секциями и крупными блоками) и --space-s (внутри блока).
@@ -527,18 +522,15 @@ body.sage .btn {
 }
 body.sage .about .btn,
 body.sage .process .btn,
-body.sage .footer .btn,
-body.sage .dock .btn { background: var(--paper); border-color: var(--paper); color: var(--ink); }
+body.sage .footer .btn { background: var(--paper); border-color: var(--paper); color: var(--ink); }
 body.sage .btn:hover { background: var(--red); border-color: var(--red); color: var(--paper); }
 body.sage .btn--small { min-height: 40px; padding: 0 16px; }
 body.sage .site-header .btn { border-radius: 10px; } /* в stage.css была «таблетка» */
 .btn__icon { flex: none; width: 18px; height: 18px; }
 
 body.sage .footer__buttons { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-s); }
-/* .lead__cta на телефоне скрыт выше: кнопки закреплены внизу */
-@media (min-width: 960px) {
-  body.sage .lead__cta { display: flex; align-items: center; gap: var(--space-s); }
-}
+/* 15.10: нижней панели больше нет, кнопки первого экрана видны и на телефоне */
+body.sage .lead__cta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-s); }
 body.sage .footer__buttons { justify-content: center; }
 
 .gallery__more { display: flex; justify-content: flex-end; }
@@ -597,8 +589,7 @@ body.sage {
 
 /* about.css и sage.css берут фон из --sage: здесь закрепляем коричневый */
 body.sage .about,
-body.sage .strip,
-body.sage .dock { background-color: var(--ink); }
+body.sage .strip { background-color: var(--ink); }
 body.sage .about__frame { background-color: var(--ink); }
 
 /* полоса-анонс: на телефоне разрядка меньше, чтобы полное название остановки влезло в одну строку (15.10) */
@@ -789,11 +780,28 @@ body.sage .pair__tag--accent { background: none; color: var(--red); }
 .ask__list li + li::before { content: "·"; margin: 0 .6em; opacity: .6; }
 
 /* ---------- меньше кнопок «написати» ----------
-   Телефон: нижняя панель видна всегда, поэтому кнопки футера её не дублируют.
-   Кнопки в «Про мене» убраны из HTML везде. */
+   Кнопки в «Про мене» убраны из HTML везде. Нижняя панель убрана 15.10 (решение Ани):
+   на телефоне кнопки — на первом экране и в футере. */
 
-@media (max-width: 959px) {
-  body.sage .footer__buttons { display: none; }
+/* ---------- шапка закреплена у самого верха (эксперимент 15.10) ----------
+   position: fixed вместо sticky + viewport-fit=cover в HTML: шапка заходит под статус-бар,
+   а iOS может покрасить зону браузера в цвет шапки. Отступ сверху у body = высота шапки. */
+
+body.sage {
+  --header-h: 64px;
+  padding-top: calc(var(--header-h) + env(safe-area-inset-top));
+  padding-bottom: 0;
+}
+body.sage .site-header {
+  position: fixed;
+  inset: 0 0 auto;
+  height: calc(var(--header-h) + env(safe-area-inset-top));
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: 0;
+  box-sizing: border-box;
+}
+@media (min-width: 960px) {
+  body.sage { --header-h: 72px; }
 }
 
 /* кнопка в рамке: «подивитись ще», не «написати». Заливка — только для сообщения Юлії */
