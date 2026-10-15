@@ -453,6 +453,24 @@ body.sage .price,
 body.sage .process,
 body.sage .healed,
 body.sage .faq { padding-top: var(--space-l); padding-bottom: var(--space-l); }
+/* 15.10: на телефоне заголовки секций с большой цифрой выше — отступ сверху 40 → 24 px */
+@media (max-width: 959px) {
+  body.sage .gallery,
+  body.sage .price,
+  body.sage .process,
+  body.sage .faq { padding-top: calc(var(--space-s) * 1.5); }
+  body.sage .process__head h2 { margin-top: 0; }
+  /* 03 не уходит под фото «Процесу»: цифра у верха секции, фото чуть ниже */
+  body.sage .process .bignum { top: 0; }
+  body.sage .process .process__photo { margin-top: calc(var(--space-s) * 1.5); }
+}
+/* 15.10: на шалфее светлая цифра при .08 почти не видна */
+body.sage .process .bignum { opacity: .2; }
+/* сертификат в футере: на телефоне перенос после «суму», на десктопе строка целиком */
+.footer__gift { text-wrap: balance; }
+@media (min-width: 960px) {
+  .br-phone { display: none; }
+}
 /* футер ниже: 32 px телефон / 48 px десктоп */
 body.sage .footer { padding-top: calc(var(--space-s) * 2); padding-bottom: calc(var(--space-s) * 2); }
 
