@@ -31,20 +31,45 @@ body.sage .lead--row { display: block; }
 @media (min-width: 960px) {
   body.sage .lead--row { padding-top: 40px; }
 
-  /* 15.10: подпись «Юлія · тату майстриня» убрана (решение Ани). Текст на всю ширину ряда фото:
-     заголовок одной строкой, под ним подпись слева и кнопки справа по краю фото */
+  /* 15.10: подпись «Юлія · тату майстриня» убрана (решение Ани). Заголовок одной строкой на ширину ряда фото,
+     под ним подпись; кнопка переехала под фото (.lead__bottom) */
   .lead--row h1 { margin-top: 0; font-size: clamp(3rem, 5.6vw, 5.1rem); }
   .lead--row .lead__l3 { display: inline; }
-  .lead--row .lead__side {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-s);
-    margin-top: var(--space-s);
-  }
-  body.sage .lead--row .lead__sub,
-  body.sage .lead--row .lead__cta { margin-top: 0; }
 
   .lead__works { flex-wrap: nowrap; gap: var(--space-s); margin-top: 32px; }
   .lead__works li { flex-basis: 0; }
+}
+
+/* 15.10: под работами – «від 1300 грн» и что будет после сообщения, одна кнопка Telegram, Instagram ссылкой.
+   Порядок для человека: нравятся работы → сколько стоит → что дальше → написать.
+   Телефон: всё столбиком, кнопка на всю ширину. Десктоп: цена слева, кнопка справа по краю фото */
+.lead__bottom { margin-top: var(--space-s); }
+.lead__min {
+  font-family: var(--serif);
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--ink);
+}
+.lead__next { margin-top: 8px; color: var(--muted); font-size: 1rem; line-height: 1.5; text-wrap: pretty; }
+.lead__next span { color: var(--red); }
+body.sage .lead--row .lead__cta {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  margin-top: var(--space-s);
+}
+body.sage .lead--row .lead__cta .link-more { align-self: center; }
+
+@media (min-width: 960px) {
+  .lead__bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-l);
+    margin-top: 32px;
+  }
+  .lead__min { font-size: 2.5rem; }
+  .lead__next { font-size: 1.05rem; }
+  body.sage .lead--row .lead__cta { flex: none; align-items: flex-end; margin-top: 0; }
+  body.sage .lead--row .lead__cta .link-more { align-self: flex-end; }
 }

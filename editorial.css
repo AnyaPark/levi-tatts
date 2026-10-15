@@ -553,6 +553,44 @@ body.sage .footer__buttons { display: flex; flex-wrap: wrap; align-items: center
 body.sage .lead__cta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-s); }
 body.sage .footer__buttons { justify-content: center; }
 
+/* 15.10: главная кнопка – Telegram, Instagram – вторичная ссылка текстом со стрелкой
+   («подивитись більше», а не «написати»). Высота 44 px – удобно нажать пальцем */
+.link-more {
+  display: inline-flex;
+  align-items: center;
+  gap: .4em;
+  min-height: 44px;
+  color: var(--ink);
+  font-size: .95rem;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+.link-more span { display: inline-block; text-decoration: none; transition: translate .2s; }
+.link-more:hover { color: var(--red); }
+.link-more:hover span { translate: 3px 0; }
+body.sage .footer .link-more { color: var(--paper); }
+body.sage .footer__buttons { flex-direction: column; gap: 4px; }
+
+/* адрес у финальной кнопки: появляется, когда человек уже решил записаться */
+body.sage .footer__place {
+  margin-top: var(--space-s);
+  color: var(--paper-2);
+  font-size: .72rem;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+/* 15.10: доказательства доверия в «Про мене» – отдельный список под первым абзацем, тонкие линии */
+body.sage .about__facts { margin: var(--space-s) 0; padding: 0; list-style: none; }
+body.sage .about__facts li {
+  padding: 10px 0;
+  border-top: 1px solid rgba(242, 239, 231, .25);
+  color: var(--paper);
+  line-height: 1.5;
+}
+body.sage .about__facts li:last-child { border-bottom: 1px solid rgba(242, 239, 231, .25); }
+
 .gallery__more { display: flex; justify-content: flex-end; }
 @media (max-width: 959px) {
   .gallery__more .btn { width: 100%; }
@@ -577,7 +615,7 @@ body.sage .faq summary,
 body.sage .steps strong { line-height: 1.15; letter-spacing: -.01em; }
 
 body.sage .label,
-body.sage .strip,
+body.sage .footer__place,
 body.sage .nav a,
 body.sage .pair__tag,
 body.sage .pair figcaption,
@@ -608,14 +646,9 @@ body.sage {
 }
 
 /* about.css и sage.css берут фон из --sage: здесь закрепляем коричневый */
-body.sage .about,
-body.sage .strip { background-color: var(--ink); }
+body.sage .about { background-color: var(--ink); }
 body.sage .about__frame { background-color: var(--ink); }
-
-/* полоса-анонс: на телефоне разрядка меньше, чтобы полное название остановки влезло в одну строку (15.10) */
-@media (max-width: 959px) {
-  body.sage .strip { letter-spacing: .1em; text-wrap: balance; }
-}
+/* полоса-анонс .strip убрана из HTML 15.10: адрес – в футере (.footer__place) */
 
 /* ---------- шапка на телефоне: кнопка из двух линий + меню-popover ----------
    Без поддержки popover кнопка не показывается, шапка остаётся с одним логотипом. */
@@ -885,8 +918,26 @@ body.sage .steps__num {
 }
 body.sage .steps__body > p { margin-top: 4px; }
 
-/* «детальніше» */
-.steps__more summary {
+/* 15.10: «детальніше» внутри шагов убрано, тексты целиком. Видны 01–04 (путь до записи),
+   05–07 раскрываются кнопкой «ще 3 кроки» под списком. Без :has() видны все семь, кнопка скрыта */
+.steps-toggle { display: none; }
+@supports selector(:has(*)) {
+  .steps-toggle { display: block; margin-top: 4px; }
+  .process:not(:has(.steps-toggle[open])) .steps li:nth-child(n+5) { display: none; }
+  body.sage .process:not(:has(.steps-toggle[open])) .steps li:nth-child(4)::after { display: none; }
+}
+@media (min-width: 960px) {
+  body.sage .steps-toggle { grid-column: 2; }
+}
+/* кнопку двигаем вправо до колонки текста шагов */
+.steps-toggle summary { margin-left: calc(var(--node, 44px) + var(--space-s)); }
+.steps-toggle[open] .steps-toggle__open,
+.steps-toggle:not([open]) .steps-toggle__close { display: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .process:has(.steps-toggle[open]) .steps li:nth-child(n+5) { animation: faq-in .35s both; }
+}
+
+.steps-toggle summary {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -902,14 +953,10 @@ body.sage .steps__body > p { margin-top: 4px; }
   text-decoration-thickness: 1px;
   text-underline-offset: 4px;
 }
-.steps__more summary::-webkit-details-marker { display: none; }
-.steps__more summary::after { content: "↓"; display: inline-block; transition: transform .25s; } /* inline-block: без подчёркивания */
-.steps__more[open] summary::after { transform: rotate(180deg); }
-.steps__more summary:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
-body.sage .steps__more p { margin: 0; color: var(--paper-2); }
-@media (prefers-reduced-motion: no-preference) {
-  .steps__more[open] p { animation: faq-in .35s both; }
-}
+.steps-toggle summary::-webkit-details-marker { display: none; }
+.steps-toggle summary::after { content: "↓"; display: inline-block; transition: transform .25s; } /* inline-block: без подчёркивания */
+.steps-toggle[open] summary::after { transform: rotate(180deg); }
+.steps-toggle summary:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
 
 @media (min-width: 960px) {
   body.sage .steps li { grid-template-columns: var(--node) minmax(0, 1fr); }
