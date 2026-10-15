@@ -581,15 +581,13 @@ body.sage .footer__place {
   text-wrap: balance;
 }
 
-/* 15.10: доказательства доверия в «Про мене» – отдельный список под первым абзацем, тонкие линии */
+/* 15.10: доказательства доверия в «Про мене» – отдельный список под первым абзацем; линии между пунктами убраны (решение Ани) */
 body.sage .about__facts { margin: var(--space-s) 0; padding: 0; list-style: none; }
 body.sage .about__facts li {
   padding: 10px 0;
-  border-top: 1px solid rgba(242, 239, 231, .25);
   color: var(--paper);
   line-height: 1.5;
 }
-body.sage .about__facts li:last-child { border-bottom: 1px solid rgba(242, 239, 231, .25); }
 
 .gallery__more { display: flex; justify-content: flex-end; }
 @media (max-width: 959px) {
