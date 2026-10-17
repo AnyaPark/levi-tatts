@@ -572,6 +572,15 @@ body.sage .footer__buttons { justify-content: center; }
 body.sage .footer .link-more { color: var(--paper); }
 body.sage .footer__buttons { flex-direction: column; gap: 4px; }
 
+/* 17.10: под призывом финала – что написать и что будет дальше (по отзыву куратора) */
+body.sage .footer__lead {
+  max-width: 30em;
+  margin: var(--space-s) auto 0;
+  color: var(--paper-2);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
 /* адрес у финальной кнопки: появляется, когда человек уже решил записаться */
 body.sage .footer__place {
   margin-top: var(--space-s);
@@ -582,12 +591,14 @@ body.sage .footer__place {
 }
 
 /* 15.10: доказательства доверия в «Про мене» – отдельный список под первым абзацем; линии между пунктами убраны (решение Ани) */
-body.sage .about__facts { margin: var(--space-s) 0; padding: 0; list-style: none; }
+/* 17.10: без линий отступы казались огромными (Аня) – сверху и снизу как между абзацами (.9em), между пунктами .4em */
+body.sage .about__facts { margin: .9em 0; padding: 0; list-style: none; }
 body.sage .about__facts li {
-  padding: 10px 0;
+  padding: 0;
   color: var(--paper);
   line-height: 1.5;
 }
+body.sage .about__facts li + li { margin-top: .4em; }
 
 .gallery__more { display: flex; justify-content: flex-end; }
 @media (max-width: 959px) {
@@ -829,6 +840,14 @@ body.sage .pair__tag--accent { background: none; color: var(--red); }
   font-size: 1rem;
 }
 .ask__list li + li::before { content: "·"; margin: 0 .6em; opacity: .6; }
+/* 17.10: подарунковий сертифікат – из футера сюда, под «Що написати» */
+body.sage .price__gift {
+  max-width: 34rem;
+  margin-top: var(--space-s);
+  color: var(--muted);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
 
 /* ---------- меньше кнопок «написати» ----------
    Кнопки в «Про мене» убраны из HTML везде. Нижняя панель убрана 15.10 (решение Ани):
@@ -1002,3 +1021,30 @@ body.sage .steps__body > p { margin-top: 4px; }
 /* ---------- соседние секции на одном фоне: между ними один отступ, а не два (11.10) ----------
    Галерея и «Ціна» — обе на бумаге: шва не видно, отступы складывались. */
 body.sage .gallery { padding-bottom: 0; }
+
+/* ---------- «Відгуки» (17.10, по отзыву куратора): между «Процесом» (шалфей) и FAQ (бумага) ----------
+   Скриншоты отзывов (решение Ани), без рамок и теней: белый фон скрина сам выделяется на бумаге.
+   Телефон столбиком (не шире 440 px), десктоп 3 колонки по верхнему краю. Внизу один отступ: FAQ на том же фоне */
+body.sage .reviews {
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip;
+  padding: calc(var(--space-s) * 1.5) var(--gutter) 0;
+  background: var(--bg-paper);
+  color: var(--ink);
+}
+body.sage .reviews .sec-lead { color: var(--muted); }
+.reviews__list {
+  list-style: none;
+  margin: var(--space-s) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-s);
+}
+.reviews__list img { display: block; width: 100%; max-width: 440px; height: auto; }
+body.sage .reviews .link-more { margin-top: var(--space-s); }
+@media (min-width: 960px) {
+  body.sage .reviews { padding-top: var(--space-l); }
+  .reviews__list { grid-template-columns: repeat(3, 1fr); align-items: start; gap: var(--space-s); }
+  .reviews__list img { max-width: none; }
+}

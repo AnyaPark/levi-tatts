@@ -6,6 +6,9 @@ body.sage .lead--row { display: block; }
 /* 15.10: отступ от шапки до заголовка меньше (просьба Ани): телефон 56 → 24 px, как у остальных секций */
 body.sage .lead--row { padding-top: calc(var(--space-s) * 1.5); }
 body.sage .lead--row h1 { margin-top: 0; }
+/* 17.10: строка «Юлія · тату-майстриня в Запоріжжі» над заголовком (по отзыву куратора), мелкий капс не меньше 12 px */
+body.sage .lead--row .lead__who { font-size: .8rem; color: var(--muted); }
+body.sage .lead--row .lead__who + h1 { margin-top: 12px; }
 
 .lead--row h1 > * { display: inline; }
 .lead--row .lead__l2 { padding-left: 0; }
