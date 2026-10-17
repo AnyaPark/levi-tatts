@@ -591,14 +591,15 @@ body.sage .footer__place {
 }
 
 /* 15.10: доказательства доверия в «Про мене» – отдельный список под первым абзацем; линии между пунктами убраны (решение Ани) */
-/* 17.10: без линий отступы казались огромными (Аня) – сверху и снизу как между абзацами (.9em), между пунктами .4em */
+/* 17.10: без линий отступы казались огромными (Аня) – сверху и снизу как между абзацами (.9em).
+   Позже 17.10: межстрочный и отступ между пунктами как у абзацев (было 1.5 и .4em – ритм прыгал) */
 body.sage .about__facts { margin: .9em 0; padding: 0; list-style: none; }
 body.sage .about__facts li {
   padding: 0;
   color: var(--paper);
-  line-height: 1.5;
+  line-height: 1.6;
 }
-body.sage .about__facts li + li { margin-top: .4em; }
+body.sage .about__facts li + li { margin-top: .9em; }
 
 .gallery__more { display: flex; justify-content: flex-end; }
 @media (max-width: 959px) {
@@ -1023,8 +1024,9 @@ body.sage .steps__body > p { margin-top: 4px; }
 body.sage .gallery { padding-bottom: 0; }
 
 /* ---------- «Відгуки» (17.10, по отзыву куратора): между «Процесом» (шалфей) и FAQ (бумага) ----------
-   Скриншоты отзывов (решение Ани), без рамок и теней: белый фон скрина сам выделяется на бумаге.
-   Телефон столбиком (не шире 440 px), десктоп 3 колонки по верхнему краю. Внизу один отступ: FAQ на том же фоне */
+   Скриншоты отзывов (решение Ани), без рамок и теней. Позже 17.10: в кадре только аватар и сообщение
+   (review-0*-msg.jpg), белая подложка; на десктопе карточки одного размера (рамка 16:9, сообщение к низу слева).
+   Телефон столбиком (не шире 440 px), десктоп 3 колонки. Внизу один отступ: FAQ на том же фоне */
 body.sage .reviews {
   position: relative;
   isolation: isolate;
@@ -1041,10 +1043,13 @@ body.sage .reviews .sec-lead { color: var(--muted); }
   display: grid;
   gap: var(--space-s);
 }
-.reviews__list img { display: block; width: 100%; max-width: 440px; height: auto; }
+.reviews__list li { max-width: 440px; padding: 20px; background: #fff; }
+.reviews__list img { display: block; width: 100%; height: auto; }
 body.sage .reviews .link-more { margin-top: var(--space-s); }
 @media (min-width: 960px) {
   body.sage .reviews { padding-top: var(--space-l); }
-  .reviews__list { grid-template-columns: repeat(3, 1fr); align-items: start; gap: var(--space-s); }
-  .reviews__list img { max-width: none; }
+  .reviews__list { grid-template-columns: repeat(3, 1fr); gap: var(--space-s); }
+  .reviews__list li { max-width: none; }
+  /* в ряду – одна высота: рамка 16:9, сообщение прижато к низу (на телефоне в столбике выравнивать нечего) */
+  .reviews__list img { aspect-ratio: 16 / 9; object-fit: contain; object-position: left bottom; }
 }
