@@ -1,0 +1,74 @@
+/* Первый экран (17.10, перенесён в index.html): одна работа фоном – красная лилия.
+   Зачем: на телефоне ряд 2 × 2 из 4 работ занимал 391 px, кнопка уходила за первый экран.
+   Телефон: фото сверху на всю ширину, нижний край растворяется в бумаге, заголовок начинается на переходе.
+   Десктоп: фото в правой половине на всю высоту экрана, левый край растворяется в бумаге, текст слева.
+   Референсы: Willa Creative (первый экран 50/50), Rilee Marie (фото на всю ширину). Затемнения и белого текста нет –
+   остальной сайт светлый. Подключается после hero-row.css. */
+
+body.sage .lead--row.lead--photo { position: relative; padding-top: 0; }
+
+.lead__photo {
+  position: relative;
+  margin: 0 calc(var(--gutter) * -1);
+  /* высота = экран минус шапка и текст под фото (~270 px) и запас 24 px: кнопка всегда на первом экране */
+  height: max(240px, calc(100svh - var(--header-h) - 294px));
+  overflow: hidden;
+}
+.lead__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 40%;
+  /* переход в бумагу маской: низ фото становится прозрачным, виден фон страницы.
+     Накладка-градиент поверх фото давала тонкую линию по нижнему краю */
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, rgba(0, 0, 0, .45) 72%, rgba(0, 0, 0, .1) 85%, transparent 95%);
+  mask-image: linear-gradient(to bottom, #000 55%, rgba(0, 0, 0, .45) 72%, rgba(0, 0, 0, .1) 85%, transparent 95%);
+}
+/* телефон: свой квадратный кадр вокруг цветка (img/hero-bg-red-lily-m-900.jpg), цветок выше зоны перехода */
+.lead__photo picture { display: contents; }
+
+/* текст заходит на переход, а не начинается под фото */
+.lead--photo .lead__text { position: relative; margin-top: -56px; }
+
+@media (min-width: 960px) {
+  body.sage .lead--row.lead--photo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start; /* иначе текст встаёт по центру экрана и заходит на фото */
+    gap: 0; /* общий gap 72 px из editorial.css здесь лишний: отступ задаёт .lead__bottom */
+    /* 17.10: ниже, чем весь экран (просьба Ани) – под хиро видно начало следующего блока */
+    min-height: min(calc(100svh - var(--header-h)), 620px);
+    padding-top: calc(var(--space-s) * 2);
+    padding-bottom: calc(var(--space-s) * 2);
+  }
+
+  .lead__photo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 50%;
+    height: auto;
+    margin: 0;
+  }
+  .lead__photo img {
+    object-position: 55% 45%; /* кадр без плеча, цветок у центра */
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, .4) 18%, #000 40%);
+    mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, .4) 18%, #000 40%);
+  }
+
+  .lead--photo .lead__text,
+  .lead--photo .lead__bottom { position: relative; max-width: calc(50% - var(--space-l)); }
+  .lead--photo .lead__text { margin-top: 0; }
+
+  /* заголовок в половине ширины – снова в три строки */
+  .lead--photo h1 { font-size: clamp(3rem, 4.6vw, 4.6rem); }
+  .lead--photo h1 > *,
+  .lead--photo .lead__l3 { display: block; }
+
+  /* цена, шаги и кнопка столбиком под заголовком */
+  .lead--photo .lead__bottom { display: block; margin-top: calc(var(--space-s) * 2); }
+  body.sage .lead--photo .lead__cta { align-items: flex-start; margin-top: var(--space-s); }
+  body.sage .lead--photo .lead__cta .link-more { align-self: flex-start; }
+}
