@@ -132,7 +132,6 @@
     <!-- 2. Галерея: горизонтальная лента, одна работа крупно, листается пальцем.
          17.10: на телефоне порядок как на десктопе – первые 5 те же, что видны сразу (лента по высоте не растёт, кнопка «Показати всі» тут не нужна) -->
     <section class="gallery" id="works" aria-labelledby="works-title">
-      <span class="bignum" aria-hidden="true">01</span>
       <div class="sec-head">
         <h2 class="sec-title" id="works-title"><em>тонка лінія, трохи червоного, а найбільше люблю працювати з кольором</em></h2>
       </div>
@@ -214,10 +213,10 @@
           <figure class="mosaic__item" style="--r: .95"><img src="img/price-01-honey-lettering-c-800.jpg" width="800" height="844" loading="lazy" alt="Напис honey тонкою лінією на кисті"></figure>
         </div>
       </div>
-      <!-- на десктопе «Показати всі 18» и Instagram в одну строку; после раскрытия Instagram уходит вниз -->
+      <!-- на десктопе «Показати всі» (19.10: без числа, решение Ани) и Instagram в одну строку; после раскрытия Instagram уходит вниз -->
       <div class="mosaic__actions">
         <details class="mosaic__more">
-          <summary class="btn btn--outline">Показати всі 18</summary>
+          <summary class="btn btn--outline">Показати всі</summary>
           <div class="mosaic">
             <div class="mosaic__row" style="--sum: 2.5; --n: 3">
               <figure class="mosaic__item" style="--r: .75"><img src="img/gallery-11-red-lotus-c-800.jpg" width="800" height="1067" loading="lazy" alt="Червона квітка лотоса тонкою лінією на передпліччі"></figure>
@@ -244,35 +243,39 @@
             </div>
           </div>
         </details>
+        <!-- 19.10 (по отзыву куратора): одна кнопка «Показати всі 18» по центру, Instagram – подчёркнутой ссылкой сбоку -->
         <p class="gallery__more">
-          <a class="btn btn--outline" href="https://www.instagram.com/levi_tatts/" target="_blank" rel="noopener"><svg class="btn__icon" aria-hidden="true"><use href="#icon-ig"/></svg>Загоєні роботи в Instagram</a>
+          <a class="link-more" href="https://www.instagram.com/levi_tatts/" target="_blank" rel="noopener">Загоєні роботи в Instagram <span aria-hidden="true">→</span></a>
         </p>
       </div>
     </section>
 
     <!-- 4. Ціна -->
     <section class="price" id="price" aria-labelledby="price-title">
-      <span class="bignum" aria-hidden="true">02</span>
-      <div class="sec-head">
-        <h2 class="sec-title" id="price-title"><em>скільки це коштує?</em></h2>
-        <p class="price__min">від 1300 грн</p>
-        <p class="sec-lead">Стільки коштує найпростіша робота: крапка, маленький напис чи контурне сердечко. Далі ціну визначає не розмір, а складність: кількість деталей, час і обсяг роботи. Маленьке тату буває ювелірним, а велике буває простим. Тому точну ціну назву, коли побачу твою ідею, і погодимо її ще до сеансу</p>
+      <!-- 19.10 (по отзыву куратора): цветной блок-приглашение «дізнатися вартість». Формы с телефоном нет (решение Ани):
+           клиенты хотят переписку, а не звонок, и через Telegram ответ быстрее. «від 1300 грн» – мелко, как ориентир -->
+      <!-- 19.10 позже: приём «Про мене» – монстера рамкой (.price__panel) + полупрозрачная панель с размытием (.price__glass), решение Ани -->
+      <div class="price__panel">
+       <div class="price__glass">
+        <svg class="price__heart" width="34" height="31" aria-hidden="true"><use href="#heart-hand"/></svg>
+        <h2 class="sec-title" id="price-title"><em>хочеш дізнатися вартість свого тату?</em></h2>
+        <p class="sec-lead">Напиши, що хочеш зробити, і я назву ціну ще до сеансу. Вона залежить не від розміру, а від складності: деталей, часу й обсягу роботи</p>
+        <div class="ask">
+          <p class="ask__title">Що написати</p>
+          <ul class="ask__list"><li>референс</li><li>розмір</li><li>місце на тілі</li></ul>
+        </div>
+        <p class="price__cta">
+          <a class="btn" href="https://t.me/levi_tatts" target="_blank" rel="noopener"><svg class="btn__icon" aria-hidden="true"><use href="#icon-tg"/></svg>Написати в Telegram</a>
+        </p>
+        <p class="price__min">Найпростіша робота, наприклад крапка чи маленький напис, від 1300 грн</p>
+       </div>
       </div>
-      <p class="price__cta">
-        <a class="btn" href="https://t.me/levi_tatts" target="_blank" rel="noopener"><svg class="btn__icon" aria-hidden="true"><use href="#icon-tg"/></svg>Написати</a>
-        <svg class="price__heart" width="26" height="24" aria-hidden="true"><use href="#heart-hand"/></svg>
-      </p>
-      <div class="ask">
-        <p class="ask__title">Що написати</p>
-        <ul class="ask__list"><li>референс</li><li>розмір</li><li>місце на тілі</li></ul>
-      </div>
-      <!-- 17.10: сертификат перенесён из футера (Аня: футер огромный); здесь та же сумма «від 1300 грн» -->
+      <!-- 17.10: сертификат перенесён из футера (Аня: футер огромный); 19.10 – под цветным блоком -->
       <p class="price__gift">Подарунковий сертифікат на будь-яку суму від 1300 грн, діє рік. Не знаєш суму? Людина обере тату, а ти його оплатиш</p>
     </section>
 
     <!-- 5. Як усе відбувається -->
     <section class="process" id="process" aria-labelledby="process-title">
-      <span class="bignum" aria-hidden="true">03</span>
       <div class="process__head">
         <h2 id="process-title"><em>сім кроків від першого повідомлення до догляду</em></h2>
       </div>
@@ -360,25 +363,31 @@
          Позже 17.10: в кадре только аватар и сообщение (review-0*-msg.jpg) – текст крупнее, карточки одного размера; полные скрины review-01/02/03 лежат рядом.
          Ссылка пока на профиль – заменить на хайлайт с відгуками, если есть -->
     <section class="reviews" id="reviews" aria-labelledby="reviews-title">
-      <span class="bignum" aria-hidden="true">04</span>
       <div class="sec-head">
         <h2 class="sec-title" id="reviews-title"><em>що пишуть після сеансу</em></h2>
         <p class="sec-lead">Відповіді на мої сторіс в Instagram</p>
       </div>
+      <!-- 19.10 (по отзыву куратора): текст в карточках вместо скриншотов – слово в слово, язык оригинала
+           (в 3-м убрано только «кабзда»). Скриншот открывается ссылкой «оригінал» – доказательство, что отзыв настоящий -->
       <ul class="reviews__list">
-        <li><img src="img/review-01-msg.jpg" width="460" height="150" loading="lazy"
-                 alt="Відповідь на сторіс з тату на нозі: «Огромное спасибо за красоту, вы мастер супер, я в восторге! Просто фея красоты. Прийду снова»"></li>
-        <li><img src="img/review-02-msg.jpg" width="510" height="158" loading="lazy"
-                 alt="Відповідь на сторіс: «Я от своей кстати очень кайфую, реально на тенерифе лучшие идеи приходят и татушки получаются бомба»"></li>
-        <li><img src="img/review-03-msg.jpg" width="535" height="290" loading="lazy"
-                 alt="Повідомлення: «Татушка просто ням ням, красивая кабзда. Спасибо большое»"></li>
+        <li class="review">
+          <blockquote class="review__text" lang="ru">Огромное спасибо за красоту, вы мастер супер, я в восторге! Просто фея красоты. Прийду снова</blockquote>
+          <p class="review__meta">Відповідь на сторіс · <a href="img/review-01-leg-flowers.jpg" target="_blank" rel="noopener">оригінал</a></p>
+        </li>
+        <li class="review">
+          <blockquote class="review__text" lang="ru">Я от своей кстати очень кайфую, реально на тенерифе лучшие идеи приходят и татушки получаются бомба</blockquote>
+          <p class="review__meta">Відповідь на сторіс · <a href="img/review-02-ideas.jpg" target="_blank" rel="noopener">оригінал</a></p>
+        </li>
+        <li class="review">
+          <blockquote class="review__text" lang="ru">Татушка просто ням ням, красивая. Спасибо большое</blockquote>
+          <p class="review__meta">Повідомлення в Instagram · <a href="img/review-03-heart.jpg" target="_blank" rel="noopener">оригінал</a></p>
+        </li>
       </ul>
       <a class="link-more" href="https://www.instagram.com/levi_tatts/" target="_blank" rel="noopener">Більше відгуків в Instagram <span aria-hidden="true">→</span></a>
     </section>
 
     <!-- 8. Часті питання -->
     <section class="faq" id="faq" aria-labelledby="faq-title">
-      <span class="bignum" aria-hidden="true">05</span>
       <div class="sec-head">
         <h2 class="sec-title" id="faq-title"><em>про що зазвичай питають</em></h2>
       </div>
